@@ -1,15 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:select_form_field/select_form_field.dart';
 import 'package:app_incidencias/widgets/datos_generales.dart';
 
-class AbordajeMision extends StatefulWidget {
-  const AbordajeMision({Key? key}) : super(key: key);
+class InformePeligroScreen extends StatefulWidget {
+  const InformePeligroScreen({Key? key}) : super(key: key);
 
   @override
-  State<AbordajeMision> createState() => _PeligroAviarioState();
+  State<InformePeligroScreen> createState() => _InformePeligroScreenState();
 }
 
-class _PeligroAviarioState extends State<AbordajeMision> {
+class _InformePeligroScreenState extends State<InformePeligroScreen> {
   final List<Map<String, dynamic>> _items = [
     {
       'value': 'Inicio',
@@ -26,6 +29,10 @@ class _PeligroAviarioState extends State<AbordajeMision> {
   ];
 bool valueMedidas = false;
 bool valueAdvertencia = false;
+
+  ImagePicker imagePicker = ImagePicker();
+
+  File? imagenSeleccionada;
 
   @override
   Widget build(BuildContext context) {
@@ -56,19 +63,35 @@ bool valueAdvertencia = false;
         const CampoTexto(label: 'Transporte y conexos'),
         const CampoTexto(label: 'Contra incendios'),
         const CampoTexto(label: 'Armamento/expl'),
-      
 
         //ModeloCheckBox('Se advirtio el peligro'),
          AreaTexto('Descripción de incidencia'),
          AreaTexto('Recomendaciones'),
          AreaTexto('Indice de riesgo'),
         Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 90,vertical: 20),
+          child: MaterialButton(
+              child: const Text('Seleccione imagen',style: TextStyle(color: Colors.white),),
+              color: Colors.blueGrey,
+              onPressed: (){
+                _showMyDialog();
+              }),
+        ),
+        SizedBox(
+          width: 220,
+          height: 220,
+          child: imagenSeleccionada != null ? Image.file(imagenSeleccionada!):
+          const Center(
+            child: Image(image:AssetImage('assets/imagen_nula.jpg')),
+          ),
+        ),
+        Padding(
           padding: const EdgeInsets.symmetric(vertical: 45, horizontal: 80),
           child: MaterialButton(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0)),
             onPressed: () {
-              print('${valueMedidas}${valueAdvertencia}');
+
             },
             height: 45,
             color: const Color(0xff193f74),
@@ -81,6 +104,49 @@ bool valueAdvertencia = false;
           ),
         )
       ],
+    );
+  }
+
+  _imagenCamaraGaleria(ImageSource source) async {
+    PickedFile picture = await imagePicker.getImage(source: source);
+    setState(() {
+      imagenSeleccionada = File(picture.path);
+    });
+    Navigator.pop(context);
+  }
+
+  void _showMyDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+            children:[
+              ListTile(
+                  title: const Text('Cámara'),
+                  leading: const Icon(Icons.camera_alt),
+                  onTap: (){
+                    _imagenCamaraGaleria(ImageSource.camera);
+                  }
+              ),
+              ListTile(
+                  title: const Text('Galería'),
+                  leading: const Icon(Icons.image),
+                  onTap: (){
+                    _imagenCamaraGaleria(ImageSource.gallery);
+                  }
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 10),
+                child: MaterialButton(
+                    child: const Text('Cancelar',style: TextStyle(color: Colors.white),),
+                    color: Colors.redAccent,
+                    onPressed: (){
+                      Navigator.pop(context);
+                    }),
+              ),
+            ]
+        );
+      },
     );
   }
 }

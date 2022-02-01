@@ -18,7 +18,7 @@ class _LoginState extends State<LoginScreen> {
       body: ListView(
         children: const [
           TituloLogo(),
-          Expanded(
+          Center(
             child: InputsLogin(),
           )
         ],
@@ -81,7 +81,7 @@ class _InputsLoginState extends State<InputsLogin> {
       padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 70),
       child: Column(
         children: [
-          TextField(
+          TextFormField(
             controller: usuario,
             decoration: const InputDecoration(
               label: Text('Usuario'),
@@ -90,7 +90,7 @@ class _InputsLoginState extends State<InputsLogin> {
           const SizedBox(
             height: 15,
           ),
-          TextField(
+          TextFormField(
             controller: password,
             obscureText: true,
             decoration: const InputDecoration(label: Text('Contraseña')),

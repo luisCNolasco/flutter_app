@@ -1,8 +1,21 @@
+import 'dart:io';
+
 import 'package:app_incidencias/widgets/datos_generales.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-class MantenimientoScreen extends StatelessWidget {
-  const MantenimientoScreen({Key? key}) : super(key: key);
+class ReporteAbortajeScreen extends StatefulWidget {
+  const ReporteAbortajeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ReporteAbortajeScreen> createState() => _ReporteAbortajeScreenState();
+}
+
+class _ReporteAbortajeScreenState extends State<ReporteAbortajeScreen> {
+
+  ImagePicker imagePicker = ImagePicker();
+
+  File? imagenSeleccionada;
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -21,7 +34,7 @@ class MantenimientoScreen extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 20, color: Colors.white),
                 textAlign: TextAlign.center,
-                
+
               ),
             ],
           ),
@@ -32,6 +45,23 @@ class MantenimientoScreen extends StatelessWidget {
         const CampoTexto(label: 'Instr. de motor'),
         const CampoTexto(label: 'Actitud de aeronave'),
         const AreaTexto(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 90,vertical: 20),
+          child: MaterialButton(
+              child: const Text('Seleccione imagen',style: TextStyle(color: Colors.white),),
+              color: Colors.blueGrey,
+              onPressed: (){
+                _showMyDialog();
+              }),
+        ),
+        SizedBox(
+          width: 220,
+          height: 220,
+          child: imagenSeleccionada != null ? Image.file(imagenSeleccionada!):
+          const Center(
+            child: Image(image:AssetImage('assets/imagen_nula.jpg')),
+          ),
+        ),
          Padding(
            padding: const EdgeInsets.symmetric(vertical: 45,horizontal: 80),
            child: MaterialButton(
@@ -51,6 +81,49 @@ class MantenimientoScreen extends StatelessWidget {
             ),
          )
       ],
+    );
+  }
+
+  _imagenCamaraGaleria(ImageSource source) async {
+    PickedFile picture = await imagePicker.getImage(source: source);
+    setState(() {
+      imagenSeleccionada = File(picture.path);
+    });
+    Navigator.pop(context);
+  }
+
+  void _showMyDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+            children:[
+              ListTile(
+                  title: const Text('Cámara'),
+                  leading: const Icon(Icons.camera_alt),
+                  onTap: (){
+                    _imagenCamaraGaleria(ImageSource.camera);
+                  }
+              ),
+              ListTile(
+                  title: const Text('Galería'),
+                  leading: const Icon(Icons.image),
+                  onTap: (){
+                    _imagenCamaraGaleria(ImageSource.gallery);
+                  }
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 10),
+                child: MaterialButton(
+                    child: const Text('Cancelar',style: TextStyle(color: Colors.white),),
+                    color: Colors.redAccent,
+                    onPressed: (){
+                      Navigator.pop(context);
+                    }),
+              ),
+            ]
+        );
+      },
     );
   }
 }

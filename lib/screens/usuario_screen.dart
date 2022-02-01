@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:app_incidencias/screens/abordaje_mision_screen.dart';
-import 'package:app_incidencias/screens/mantenimiento_screen.dart';
-import 'package:app_incidencias/screens/peligro_aviario_screen.dart';
+import 'package:app_incidencias/screens/informe_peligro.dart';
+import 'package:app_incidencias/screens/reporte_abortaje.dart';
+import 'package:app_incidencias/screens/impacto_animales.dart';
 import 'package:app_incidencias/screens/principal_screen_usuario.dart';
 
 class UsuarioScreen extends StatefulWidget {
@@ -24,11 +24,11 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
       case 0:
         return PrincipalScreen();
       case 1:
-        return MantenimientoScreen();
+        return ReporteAbortajeScreen  ();
       case 2:
-        return PeligroAviario();
+        return ImpactoAnimalScreen();
       case 3:
-        return AbordajeMision();
+        return InformePeligroScreen();
       case 4:
       return PrincipalScreen();
     }
@@ -36,8 +36,8 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
 
   _onSelectItem(int pos) {
     setState(() {
-      Navigator.of(context).pop();
       opcionSeleccionada = pos;
+      Navigator.of(context).pop();
     });
   }
 
@@ -78,8 +78,8 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.settings_outlined),
-              title: Text('Por mantenimiento'),
+              leading: Icon(Icons.airplanemode_active_outlined),
+              title: Text('Reporte de Abortaje (RAMI)'),
               
               selected: (1 == opcionSeleccionada),
               onTap: () {
@@ -88,15 +88,15 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
             ),
             ListTile(
               leading: Icon(Icons.warning_amber_outlined),
-              title: Text('Peligro aviario'),
+              title: Text('Impacto con animales'),
               selected: (2 == opcionSeleccionada),
               onTap: () {
                 _onSelectItem(2);
               },
             ),
             ListTile(
-              leading: Icon(Icons.airplanemode_active_outlined),
-              title: Text('Abordaje de misión'),
+              leading: Icon(Icons.dangerous),
+              title: Text('Informe de peligros (IPPI)'),
               selected: (3 == opcionSeleccionada),
               onTap: () {
                 _onSelectItem(3);
@@ -120,13 +120,59 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     // Add your onPressed code here!
-      //   },
-      //   backgroundColor: color_fap,
-      //   child: const Icon(Icons.add_a_photo),
-      // ),
+       /*floatingActionButton: FloatingActionButton.extended(
+         onPressed: () {
+           setState(() {
+             _showMyDialog();
+           });
+
+         },
+         icon: Icon(Icons.article_outlined),
+         label: Text("Crear Reporte"),
+         backgroundColor: color_fap,
+       ),*/
     );
   }
+
+/*
+  void _showMyDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+            children:[
+              ListTile(
+                  title: const Text('Abortaje de Misión'),
+                  leading: const Icon(Icons.dangerous),
+                  onTap: (){
+                    setState(() {
+                      _onSelectItem(1);
+                    });
+
+                  }
+              ),
+              ListTile(
+                  title: const Text('Peligro aviario'),
+                  leading: const Icon(Icons.airplanemode_active),
+                  onTap: (){
+                    setState(() {
+                      _onSelectItem(2);
+                    });
+
+                  }
+              ),
+              ListTile(
+                  title: const Text('Peligros potenciales'),
+                  leading: const Icon(Icons.warning_amber_outlined),
+                  onTap: (){
+                    setState(() {
+                      _onSelectItem(3);
+                    });
+                  }
+              ),
+            ]
+        );
+      },
+    );
+  }*/
 }
