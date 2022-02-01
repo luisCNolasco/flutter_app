@@ -72,79 +72,89 @@ class _InputsLoginState extends State<InputsLogin> {
   final usuario = TextEditingController();
   final password = TextEditingController();
 
-  String usu = '';
-  String pass = '';
+  // La clave global se usa para obtener el componente de formulario From
+  GlobalKey<FormState> loginKey = GlobalKey<FormState>();
+
+   String usu='';
+   String pass='';
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 70),
-      child: Column(
-        children: [
-          TextFormField(
-            controller: usuario,
-            decoration: const InputDecoration(
-              label: Text('Usuario'),
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          TextFormField(
-            controller: password,
-            obscureText: true,
-            decoration: const InputDecoration(label: Text('Contraseña')),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          MaterialButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0)),
-            onPressed: () {
-               usu = usuario.text;
-               pass = password.text;
-
-              if (usu == '' || pass == '') {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const AlertDialog(
-                        title: Text('Complete los campos'),
-                      );
-                    });
-              } else if (usu != 'admin' && pass != 'admin') {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const AlertDialog(
-                        title: Text('Usuario o contraseña no válidos'),
-                      );
-                    });
-              } else if (usu == 'admin' || pass == 'admin') {
-                //Navegacion a otra pantalla
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (BuildContext context) {
-                  return UsuarioScreen(usu);
-                }));
-              }
-
-              usuario.text = '';
-              password.text = '';
-            },
-            minWidth: 500,
-            height: 45,
-            color: const Color(0xff193f74),
-            child: const Text(
-              'INGRESAR',
-              style: TextStyle(
-                color: Colors.white,
+      child: Form(
+        key: loginKey,
+        child: Column(
+          children: [
+            TextFormField(
+              controller: usuario,
+              decoration: const InputDecoration(
+                label: Text('Usuario'),
               ),
             ),
-          )
-        ],
+            const SizedBox(
+              height: 15,
+            ),
+            TextFormField(
+              controller: password,
+              obscureText: true,
+              decoration: const InputDecoration(label: Text('Contraseña')),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            MaterialButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0)),
+              onPressed: () {
+                print('usuario: '+usu);
+                print('contraseña: '+pass);
+                _iniciarSesion(usuario.text,password.text);
+              },
+              minWidth: 500,
+              height: 45,
+              color: const Color(0xff193f74),
+              child: const Text(
+                'INGRESAR',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
+  }
+
+  void _iniciarSesion(String u,String c){
+
+    if (u == '' || c == '') {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const AlertDialog(
+              title: Text('Complete los campos'),
+            );
+          });
+    } else if (u != 'admin' && c != 'admin') {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const AlertDialog(
+              title: Text('Usuario o contraseña no válidos'),
+            );
+          });
+    } else if (u == 'admin' || c == 'admin') {
+      //Navegacion a otra pantalla
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (BuildContext context) {
+        return UsuarioScreen(u);
+      }));
+    }
+
+    usuario.text = '';
+    password.text = '';
   }
 }
 

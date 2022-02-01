@@ -1,3 +1,4 @@
+import 'package:app_incidencias/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app_incidencias/screens/informe_peligro.dart';
@@ -6,9 +7,9 @@ import 'package:app_incidencias/screens/impacto_animales.dart';
 import 'package:app_incidencias/screens/principal_screen_usuario.dart';
 
 class UsuarioScreen extends StatefulWidget {
+  static String id = 'usuario_screen';
   final String usuario;
   const UsuarioScreen(this.usuario,{Key? key}) : super(key: key);
-
   @override
   _UsuarioScreenState createState() => _UsuarioScreenState();
 }
@@ -113,66 +114,14 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
               leading: Icon(Icons.power_settings_new_rounded),
               title: Text('Cerrar sesión'),
               onTap: () {
-                print('Cerrando sesión');
-
+                Navigator.pushNamedAndRemoveUntil(context, LoginScreen.id,(route) => true);
               },
             ),
           ],
         ),
       ),
-       /*floatingActionButton: FloatingActionButton.extended(
-         onPressed: () {
-           setState(() {
-             _showMyDialog();
-           });
-
-         },
-         icon: Icon(Icons.article_outlined),
-         label: Text("Crear Reporte"),
-         backgroundColor: color_fap,
-       ),*/
     );
   }
 
-/*
-  void _showMyDialog() async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-            children:[
-              ListTile(
-                  title: const Text('Abortaje de Misión'),
-                  leading: const Icon(Icons.dangerous),
-                  onTap: (){
-                    setState(() {
-                      _onSelectItem(1);
-                    });
 
-                  }
-              ),
-              ListTile(
-                  title: const Text('Peligro aviario'),
-                  leading: const Icon(Icons.airplanemode_active),
-                  onTap: (){
-                    setState(() {
-                      _onSelectItem(2);
-                    });
-
-                  }
-              ),
-              ListTile(
-                  title: const Text('Peligros potenciales'),
-                  leading: const Icon(Icons.warning_amber_outlined),
-                  onTap: (){
-                    setState(() {
-                      _onSelectItem(3);
-                    });
-                  }
-              ),
-            ]
-        );
-      },
-    );
-  }*/
 }

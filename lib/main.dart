@@ -1,3 +1,4 @@
+import 'package:app_incidencias/screens/usuario_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:app_incidencias/screens/login_screen.dart';
 
@@ -21,7 +22,7 @@ final color_fap = const Color(0xff193f74);
       ),
       initialRoute: LoginScreen.id,
       routes: {
-        LoginScreen.id : (context) => const LoginScreen()
+        LoginScreen.id : (_) => const LoginScreen()
       },
     );
   }
