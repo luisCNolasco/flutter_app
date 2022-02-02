@@ -1,15 +1,18 @@
+import 'package:app_incidencias/screens/listado_reportes_screen.dart';
 import 'package:app_incidencias/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app_incidencias/screens/informe_peligro.dart';
 import 'package:app_incidencias/screens/reporte_abortaje.dart';
 import 'package:app_incidencias/screens/impacto_animales.dart';
-import 'package:app_incidencias/screens/principal_screen_usuario.dart';
+import 'package:app_incidencias/screens/inicio_screen.dart';
 
 class UsuarioScreen extends StatefulWidget {
   static String id = 'usuario_screen';
   final String usuario;
-  const UsuarioScreen(this.usuario,{Key? key}) : super(key: key);
+
+  const UsuarioScreen(this.usuario, {Key? key}) : super(key: key);
+
   @override
   _UsuarioScreenState createState() => _UsuarioScreenState();
 }
@@ -18,20 +21,20 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
   String dropdownValue = '[Seleccione]';
   int opcionSeleccionada = 0;
   final color_fap = const Color(0xff193f74);
-  
+
   //return PrincipalScreen();
   _obtenerPantalla(int pos) {
     switch (pos) {
       case 0:
-        return PrincipalScreen();
+        return const InicioScreen();
       case 1:
-        return ReporteAbortajeScreen  ();
+        return const ReporteAbortajeScreen();
       case 2:
-        return ImpactoAnimalScreen();
+        return const ImpactoAnimalScreen();
       case 3:
-        return InformePeligroScreen();
+        return const InformePeligroScreen();
       case 4:
-      return PrincipalScreen();
+        return const ListadoReporteScreen();
     }
   }
 
@@ -56,7 +59,7 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
             UserAccountsDrawerHeader(
               decoration: BoxDecoration(color: color_fap),
               accountName: Text(widget.usuario),
-              accountEmail: Text(widget.usuario+'@admin.com'),
+              accountEmail: Text(widget.usuario + '@admin.com'),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
                 child:
@@ -66,23 +69,24 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
             ListTile(
               leading: Icon(Icons.home),
               title: Text('Inicio'),
-              selected: (4 == opcionSeleccionada),
+              selected: (0 == opcionSeleccionada),
+              selectedColor: color_fap,
               onTap: () {
-                _onSelectItem(4);
+                _onSelectItem(0);
               },
             ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 5),
               child: Text(
-                "Registro de incidencia",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                "Registrar reporte",
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
             ),
             ListTile(
               leading: Icon(Icons.airplanemode_active_outlined),
               title: Text('Reporte de Abortaje (RAMI)'),
-              
               selected: (1 == opcionSeleccionada),
+              selectedColor: color_fap,
               onTap: () {
                 _onSelectItem(1);
               },
@@ -91,6 +95,7 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
               leading: Icon(Icons.warning_amber_outlined),
               title: Text('Impacto con animales'),
               selected: (2 == opcionSeleccionada),
+              selectedColor: color_fap,
               onTap: () {
                 _onSelectItem(2);
               },
@@ -99,22 +104,40 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
               leading: Icon(Icons.dangerous),
               title: Text('Informe de peligros (IPPI)'),
               selected: (3 == opcionSeleccionada),
+              selectedColor: color_fap,
               onTap: () {
                 _onSelectItem(3);
               },
             ),
             Divider(
               color: color_fap,
-              height: 50,
-              thickness: 2,
-              indent: 10,
-              endIndent: 10,
+              height: 10,
+              thickness: 1,
+              indent: 15,
+              endIndent: 15,
+            ),
+            ListTile(
+              leading: Icon(Icons.article_outlined),
+              title: Text('Listado de reportes'),
+              selected: (4 == opcionSeleccionada),
+              selectedColor: color_fap,
+              onTap: () {
+                _onSelectItem(4);
+              },
+            ),
+            Divider(
+              color: color_fap,
+              height: 10,
+              thickness: 1,
+              indent: 15,
+              endIndent: 15,
             ),
             ListTile(
               leading: Icon(Icons.power_settings_new_rounded),
               title: Text('Cerrar sesión'),
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, LoginScreen.id,(route) => true);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, LoginScreen.id, (route) => true);
               },
             ),
           ],
@@ -122,6 +145,4 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
       ),
     );
   }
-
-
 }

@@ -72,7 +72,7 @@ class _InputsLoginState extends State<InputsLogin> {
   final usuario = TextEditingController();
   final password = TextEditingController();
 
-  // La clave global se usa para obtener el componente de formulario From
+  // La clave global se usa para obtener el componente de formulario Form
   GlobalKey<FormState> loginKey = GlobalKey<FormState>();
 
    String usu='';

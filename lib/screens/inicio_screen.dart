@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class PrincipalScreen extends StatelessWidget {
+class InicioScreen extends StatelessWidget {
 
-  const PrincipalScreen({ Key? key }) : super(key: key);
+  const InicioScreen({ Key? key }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
